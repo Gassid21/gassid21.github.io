@@ -1,15 +1,206 @@
+/* styles.css */
 body {
-    background-color: #12112C;
+    font-family: 'League Spartan', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #131c23;
 }
 
-.fa-twitter {
-    color: white; /
-  }
-
-  .fa-youtube {
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: white;
-  }
+    margin-bottom: 20px;
+}
 
-  .fa-twitch {
-    color: white;
-  }
+.patch-info {
+    font-family: 'League Spartan', sans-serif;
+    text-align: center;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    background-color: #3F3F3F; /* Fond du tableau */
+    color: white; /* Texte en blanc */
+    table-layout: fixed; /* Assure une largeur fixe pour toutes les colonnes */
+}
+
+th, td {
+    border: 2px solid #131c23; /* Bordure noire pour les séparations */
+    text-align: center;
+    padding: 10px;
+}
+
+thead th {
+    background-color: #131c23; /* En-tête du tableau */
+}
+
+
+/* Styles pour les rangs */
+.rank {
+    background-color: #3F3F3F; /* Fond pour les cellules des rangs */
+    font-weight: bold; /* Texte en gras */
+}
+
+.sss {
+    background-color: #ff6f61;
+    width: 61px;
+    height: 61px;
+}
+
+.splus {
+    background-color: #FFBF7E;
+    width: 61px;
+    height: 61px; 
+}
+
+.s- {
+    background-color: #FFDE7F;
+    width: 61px;
+    height: 61px; 
+}
+
+.a {
+    background-color: #FFFF7F;
+    width: 61px;
+    height: 61px;
+}
+
+.b {
+    background-color: #BEFF7E;
+    width: 61px;
+    height: 61px; 
+}
+
+.c {
+    background-color: #7AF57B;
+    width: 61px;
+    height: 61px; 
+}
+
+.xd {
+    background-color: #72E1E1;
+    width: 61px;
+    height: 61px;
+}
+
+
+/* Noms colonnes*/
+#tierListTable th:nth-child(2) {
+    background-color: #ff6f61;
+    height: 61px;
+    width: 500px;
+}
+
+#tierListTable th:nth-child(3) {
+    background-color: #FFDE7F;
+    height: 61px;
+    width: 500px;
+}
+
+#tierListTable th:nth-child(4) {
+    background-color: #BEFF7E;
+    height: 61px;
+    width: 500px; 
+}
+
+
+/* Barre de Recherche et images*/
+#searchBar {
+    margin: 10px 0;
+    padding: 5px;
+    width: 200px;
+}
+
+#itemsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* ajustez selon vos besoins, flex-start les aligne au début */
+    align-items: flex-start; /* aligne les éléments en haut de leur conteneur */
+    margin-bottom: 20px;
+    margin: auto;
+}
+
+#itemsContainer img {
+    margin: 5px;
+    width: 50px; /* Ou la taille désirée */
+    cursor: grab;
+}
+
+.draggable {
+    z-index: 1000;
+}
+
+footer {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 0; /* Ajustez selon vos besoins */
+    background-color: #131c23; /* Une couleur foncée pour le pied de page */
+    color: white; /* Texte en blanc pour une meilleure lisibilité sur fond foncé */
+    text-align: center; /* Centrer le texte dans le pied de page */
+    position: fixed; /* Fixe le pied de page au bas de la page */
+    bottom: 0; /* Aligner au bas de la page */
+    left: 0; /* Aligner à gauche de la page */
+}
+
+/* Style pour gérer la taille des images lorsqu'elles sont dans le tableau */
+#tierListTable .draggable {
+    width: 55px; /* Ou toute autre taille que vous préférez */
+    height: auto; /* Pour maintenir le ratio de l'image */
+    margin: 2px; /* Pour un peu d'espacement autour des images */
+}
+
+/* Pour empêcher les images de devenir trop grandes lors du drag */
+.ui-draggable-dragging {
+    width: 50px !important; /* Force la taille pendant le drag */
+    height: auto !important; /* Pour maintenir le ratio de l'image */
+}
+
+
+/* Styles pour les cellules des colonnes */
+#tierListTable th:nth-child(2),
+#tierListTable th:nth-child(3),
+#tierListTable th:nth-child(4) {
+    width: 600px; /* Augmenter la largeur selon vos besoins */
+}
+
+#tierListTable td.droppable-cell {
+    width: 600px; /* Largeur de cellule ajustable */
+    /* Ajouter d'autres styles si nécessaire */
+}
+
+
+
+/* Media query pour les tablettes */
+@media (max-width: 768px) {
+    #tierListTable th {
+        width: 250px; /* Réduction de la largeur des colonnes */
+    }
+    #itemsContainer img {
+        width: 40px; /* Réduction de la taille des images */
+    }
+}
+
+/* Media query pour les smartphones */
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Réduction du padding */
+    }
+    header h1 {
+        font-size: 24px; /* Réduction de la taille du texte */
+    }
+    #searchBar {
+        width: 100%; /* Pleine largeur */
+    }
+    #itemsContainer {
+        justify-content: center; /* Centrage des éléments */
+    }
+    #itemsContainer img {
+        width: 30px; /* Réduction supplémentaire de la taille des images */
+    }
+}

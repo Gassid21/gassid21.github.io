@@ -15,71 +15,73 @@
         <h1>CHREAK MID TIERLIST</h1>
         
     </header>
-    <div class="patch-info">PATCH : ...</div>
+    <div class="patch-info">PATCH : 
+        <span id="editablePatchInfo" contenteditable="true">...</span>
+    </div>
      <!-- Tableau -->
-     <main>
-        <table id="tierListTable">
-            <thead>
+    <div class="table-area">
+        <main>
+            <table id="tierListTable">
+                <thead>
+                    <tr>
+                        <th class="first"></th> <!-- Colonne vide pour les rangs -->
+                        <th>BLIND PICK</th>
+                        <th>COUNTER PICK</th>
+                        <th>NORMAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <!-- Exemple de rangée avec des cellules droppables -->
                 <tr>
-                    <th class="first"></th> <!-- Colonne vide pour les rangs -->
-                    <th>BLIND PICK</th>
-                    <th>COUNTER PICK</th>
-                    <th>NORMAL</th>
+                    <td class="rank sss">SSS</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
                 </tr>
-            </thead>
-            <tbody>
-            <!-- Exemple de rangée avec des cellules droppables -->
-            <tr>
-                <td class="rank sss">SSS</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank splus">S+</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank s-">S-</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank a">A</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank b">B</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank c">C</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-            <tr>
-                <td class="rank xd">XD</td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-                <td class="droppable-cell"></td>
-            </tr>
-        </tbody>
-    </table>
-</main>
-
-
+                <tr>
+                    <td class="rank splus">S+</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                </tr>
+                <tr>
+                    <td class="rank s-">S-</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                </tr>
+                <tr>
+                    <td class="rank a">A</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    </tr>
+                    <tr>
+                    <td class="rank b">B</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    </tr>
+                    <tr>
+                    <td class="rank c">C</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    </tr>
+                    <tr>
+                    <td class="rank xd">XD</td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    <td class="droppable-cell"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
     <!-- Barre de recherche -->
     <input type="text" id="searchBar" placeholder="Rechercher..." aria-label="Rechercher des champions" onkeyup="searchItems()">
 
-    <!-- Conteneur pour les images à glisser-déposer -->
+    <div class="return-area"><!-- Conteneur pour les images à glisser-déposer -->
     <div id="itemsContainer">
         <img src="https://static.wikia.nocookie.net/leagueoflegends/images/1/15/Aatrox_OriginalSquare.png/revision/latest?cb=20180612203801" class="draggable" alt="Aatrox">
         <img src="https://static.wikia.nocookie.net/leagueoflegends/images/2/2a/Ahri_OriginalSquare.png/revision/latest?cb=20230201172235" class="draggable" alt="Ahri">
@@ -249,6 +251,7 @@
         <img src="https://static.wikia.nocookie.net/leagueoflegends/images/2/2c/Zoe_OriginalSquare.png/revision/latest?cb=20221122024729" class="draggable" alt="Zoe">
         <img src="https://static.wikia.nocookie.net/leagueoflegends/images/0/0d/Zyra_OriginalSquare.png/revision/latest?cb=20160526214642" class="draggable" alt="Zyra">
     </div>
+</div>
 
     <!-- Conteneur pour le tableau -->
     <div class="table-container">

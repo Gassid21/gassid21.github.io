@@ -20,9 +20,10 @@ function searchItems() {
 }
 
 $(document).ready(function() {
+    // Initialisation des éléments draggable avec un helper clone
     $(".draggable").draggable({
-        revert: "invalid",
         helper: "clone",
+        revert: "invalid",
         opacity: 0.7,
         start: function(event, ui) {
             $(this).css('opacity', '0.5');
@@ -35,34 +36,54 @@ $(document).ready(function() {
     $(".droppable-cell").droppable({
         accept: ".draggable",
         drop: function(event, ui) {
-            // Here, you handle the drop into the table cells
-            // Assuming you want to clone the draggable and append it to the cell
-            var dropped = ui.helper.clone(false)
-                .removeClass('ui-draggable-dragging')
-                .css({position: 'relative', left: '0', top: '0'})
-                .appendTo(this);
-            dropped.draggable({
-                revert: "invalid",
-                opacity: 0.7
+            var clone = ui.helper.clone();
+            $(this).append(clone.css({
+                position: 'relative',
+                top: '0px',
+                left: '0px'
+            }).draggable({
+                revert: "invalid"
+            }));
+            ui.draggable.hide(); // Masquer l'élément original
+            clone.dblclick(function() {
+                $(this).remove();
+                ui.draggable.show();
+                sortItemsContainer();
             });
         }
     });
 
-    $("#itemsContainer").droppable({
-        accept: ".draggable",
-        drop: function(event, ui) {
-            // Here, you handle the case where an item is dragged back to the original container
-            // Reset the item's display and position if necessary
-            $(ui.draggable).show().css({position: 'static'});
-        }
-    });
+    // Fonction pour trier les éléments dans #itemsContainer par ordre alphabétique
+    function sortItemsContainer() {
+        var items = $("#itemsContainer .draggable").detach().get();
+        items.sort(function(a, b) {
+            var textA = $(a).attr("alt").toUpperCase();
+            var textB = $(b).attr("alt").toUpperCase();
+            return textA.localeCompare(textB);
+        });
+        $.each(items, function(i, item) {
+            $("#itemsContainer").append(item);
+        });
+    }
 
-    $("body").droppable({
-        accept: ".draggable",
-        drop: function(event, ui) {
-            // Here, you handle the case where an item is dragged outside of the table
-            // You could remove the item or return it to its original position
-            ui.draggable.remove(); // Or whatever logic you need
+    // S'assure que les éléments sont initialement triés
+    sortItemsContainer();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var editablePatchInfo = document.getElementById("editablePatchInfo");
+
+    editablePatchInfo.addEventListener("input", function() {
+        if (this.innerText.length > 5) {
+            // Si le texte dépasse 5 caractères, le réduire à 5 caractères
+            this.innerText = this.innerText.substr(0, 5);
+            // Déplacer le curseur à la fin du texte
+            var range = document.createRange();
+            var sel = window.getSelection();
+            range.setStart(this.childNodes[0], this.innerText.length);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
         }
     });
 });

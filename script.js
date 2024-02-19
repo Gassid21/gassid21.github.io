@@ -70,6 +70,8 @@ $(document).ready(function() {
     sortItemsContainer();
 });
 
+
+   // Editer le texte après le patch
 document.addEventListener("DOMContentLoaded", function() {
     var editablePatchInfo = document.getElementById("editablePatchInfo");
 

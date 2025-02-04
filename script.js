@@ -1,91 +1,76 @@
-console.log('Page loaded.');
+const API_TOKEN = '3f2d72c15ab04ef8acd728273db2ee82';
+const API_URL = 'https://api.football-data.org/v4';
 
-// Fonction de recherche
-function searchItems() {
-    var input, filter, container, img, i, txtValue;
-    input = document.getElementById('searchBar');
-    filter = input.value.toUpperCase();
-    container = document.getElementById('itemsContainer');
-    img = container.getElementsByTagName('img');
+const teams = {
+    "Juventus": 109,
+    "FC Barcelone": 81,
+    "AS Roma": 100,
+    "Aston Villa": 58,
+    "Liverpool": 64,
+    "Chelsea": 61,
+    "Auxerre": 530,
+    "Galatasaray": 610,
+    "Dortmund": 4
+};
 
-    // Boucle à travers les images et cache celles qui ne correspondent pas à la recherche
-    for (i = 0; i < img.length; i++) {
-        txtValue = img[i].alt || img[i].getAttribute('data-name');
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            img[i].style.display = "";
-        } else {
-            img[i].style.display = "none";
+document.addEventListener("DOMContentLoaded", function () {
+    loadTeams();
+    loadMatches();
+});
+
+async function fetchAPI(endpoint) {
+    try {
+        console.log(`Fetching: ${API_URL}${endpoint}`);
+        const response = await fetch(`${API_URL}${endpoint}`, {
+            headers: { 'X-Auth-Token': API_TOKEN }
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données", error);
+        return null;
+    }
+}
+
+async function loadTeams() {
+    const teamsContainer = document.getElementById("teams");
+    teamsContainer.innerHTML = "";
+    for (const [name, id] of Object.entries(teams)) {
+        const teamData = await fetchAPI(`/teams/${id}`);
+        console.log("Données équipe:", teamData);
+        if (teamData) {
+            const teamElement = document.createElement("div");
+            teamElement.innerHTML = `
+                <img src="${teamData.crest}" alt="${name}" width="50">
+                <strong>${name}</strong> (${teamData.area.name})
+            `;
+            teamsContainer.appendChild(teamElement);
         }
     }
 }
 
-$(document).ready(function() {
-    // Initialisation des éléments draggable avec un helper clone
-    $(".draggable").draggable({
-        helper: "clone",
-        revert: "invalid",
-        opacity: 0.7,
-        start: function(event, ui) {
-            $(this).css('opacity', '0.5');
-        },
-        stop: function(event, ui) {
-            $(this).css('opacity', '1');
-        }
-    });
+async function loadMatches() {
+    const matchesContainer = document.getElementById("matches");
+    matchesContainer.innerHTML = "<p>Chargement des matchs...</p>";
+    let matchList = "<table><tr><th>Date</th><th>Équipe 1</th><th>Équipe 2</th><th>Compétition</th></tr>";
+    let hasMatches = false;
 
-    $(".droppable-cell").droppable({
-        accept: ".draggable",
-        drop: function(event, ui) {
-            var clone = ui.helper.clone();
-            $(this).append(clone.css({
-                position: 'relative',
-                top: '0px',
-                left: '0px'
-            }).draggable({
-                revert: "invalid"
-            }));
-            ui.draggable.hide(); // Masquer l'élément original
-            clone.dblclick(function() {
-                $(this).remove();
-                ui.draggable.show();
-                sortItemsContainer();
-            });
+    for (const [name, id] of Object.entries(teams)) {
+        const matchesData = await fetchAPI(`/teams/${id}/matches?status=SCHEDULED`);
+        if (matchesData && matchesData.matches.length > 0) {
+            const nextMatch = matchesData.matches[0];
+            matchList += `
+                <tr>
+                    <td>${new Date(nextMatch.utcDate).toLocaleString()}</td>
+                    <td>${nextMatch.homeTeam.name}</td>
+                    <td>${nextMatch.awayTeam.name}</td>
+                    <td>${nextMatch.competition.name}</td>
+                </tr>
+            `;
         }
-    });
-
-    // Fonction pour trier les éléments dans #itemsContainer par ordre alphabétique
-    function sortItemsContainer() {
-        var items = $("#itemsContainer .draggable").detach().get();
-        items.sort(function(a, b) {
-            var textA = $(a).attr("alt").toUpperCase();
-            var textB = $(b).attr("alt").toUpperCase();
-            return textA.localeCompare(textB);
-        });
-        $.each(items, function(i, item) {
-            $("#itemsContainer").append(item);
-        });
     }
-
-    // S'assure que les éléments sont initialement triés
-    sortItemsContainer();
-});
-
-
-   // Editer le texte après le patch
-document.addEventListener("DOMContentLoaded", function() {
-    var editablePatchInfo = document.getElementById("editablePatchInfo");
-
-    editablePatchInfo.addEventListener("input", function() {
-        if (this.innerText.length > 5) {
-            // Si le texte dépasse 5 caractères, le réduire à 5 caractères
-            this.innerText = this.innerText.substr(0, 5);
-            // Déplacer le curseur à la fin du texte
-            var range = document.createRange();
-            var sel = window.getSelection();
-            range.setStart(this.childNodes[0], this.innerText.length);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-        }
-    });
-});
+    matchList += "</table>";
+    matchesContainer.innerHTML = matchList;
+}
